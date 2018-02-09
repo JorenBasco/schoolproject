@@ -1,0 +1,308 @@
+﻿/*!
+ * Start Bootstrap - Simple Sidebar (http://startbootstrap.com/)
+ * Copyright 2013-2016 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
+ */
+
+body {
+    overflow-x: hidden;
+}
+
+.logo {
+    height: 100%;
+    width: 50px;
+}
+
+.searchbar {
+    height: 85%;
+    width: 30%;
+    margin-left: 10%;
+}
+
+.searchbar2 {
+    height: inherit;
+    margin-left: -30px;
+    top: 10%;
+}
+
+/* Toggle Styles */
+
+#wrapper {
+    padding-left: 0;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+    #wrapper.toggled {
+        padding-left: 170px;
+    }
+
+#sidebar-wrapper {
+    z-index: 1000;
+    position: fixed;
+    left: 170px;
+    width: 0;
+    height: 100%;
+    margin-left: -170px;
+    margin-top: 10%;
+    overflow-y: auto;
+    background: #000;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+
+#wrapper.toggled #sidebar-wrapper {
+    width: 170px;
+}
+
+#divMenubtn {
+    margin-left: 0px;
+    position: fixed;
+    overflow-y: auto;
+    background: #1DACD6;
+    width: 100%;
+    height: 6%;
+    z-index: 1001;
+}
+
+#mainPage {
+    width: 100%;
+    position: absolute;
+    padding: 15px;
+}
+
+#wrapper.toggled #mainPage {
+    position: absolute;
+    margin-right: -170px;
+}
+
+
+#divDLItems { /*this controls the main item styles*/
+    margin-top: 40px;
+}
+
+table {
+    margin-top: 40px;
+}
+
+#divItemInfo {
+    margin-top: 40px;
+}
+
+#shop {
+    color: red;
+    float: right;
+    right: auto;
+    z-index: 10;
+}
+
+.cartItems {
+}
+
+.bodyframe {
+    margin-top: 50px;
+}
+
+.qpon input {
+    text-transform: uppercase;
+}
+
+
+
+/* Sidebar Styles */
+
+.sidebar-nav {
+    position: absolute;
+    top: 0;
+    width: 170px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+    .sidebar-nav li {
+        text-indent: 20px;
+        line-height: 40px;
+    }
+
+        .sidebar-nav li a {
+            display: block;
+            text-decoration: none;
+            color: #999999;
+        }
+
+            .sidebar-nav li a:hover {
+                text-decoration: none;
+                color: #fff;
+                background: rgba(255,255,255,0.2);
+            }
+
+            .sidebar-nav li a:active,
+            .sidebar-nav li a:focus {
+                text-decoration: none;
+            }
+
+    .sidebar-nav > .sidebar-brand {
+        height: 65px;
+        font-size: 18px;
+        line-height: 60px;
+    }
+
+        .sidebar-nav > .sidebar-brand a {
+            color: #999999;
+        }
+
+            .sidebar-nav > .sidebar-brand a:hover {
+                color: #fff;
+                background: none;
+            }
+/* MODAL STUFF*/
+#cartModal {
+    position: fixed;
+    top: 1%;
+    left: 39%;
+    height: 100%;
+    width: 200px;
+}
+
+#modalBody {
+    position: relative;
+    height: 350px;
+    overflow-y: scroll;
+}
+
+#divItemInfo img {
+    height: 400px;
+    width: 400px;
+    transition: all .2s ease-in-out;
+}
+
+
+
+/*.indexItem span input {
+    height: 250px;
+    width: 150px;
+    border: solid 2px transparent;
+    transition: all .2s ease-in-out;
+}
+
+    .indexItem span input:hover {
+        border-color: deepskyblue;
+    }*/
+/*.indexItem {
+    font-size: larger;
+}*/
+
+article {
+    border: solid 2px transparent;
+    transition: all .2s ease-in-out;
+}
+
+    article:hover {
+        background-color: #DCDCDC;
+        border-color: deepskyblue;
+    }
+
+
+
+@media(min-width:768px) {
+    #wrapper {
+        padding-left: 170px;
+    }
+
+        #wrapper.toggled {
+            padding-left: 0;
+        }
+
+    #sidebar-wrapper {
+        width: 170px;
+        top: -14.7%;
+    }
+
+    #wrapper.toggled #sidebar-wrapper {
+        width: 0;
+    }
+
+    #mainPage {
+        padding: 20px;
+        position: relative;
+    }
+
+    #wrapper.toggled #mainPage {
+        position: relative;
+        margin-right: 0;
+    }
+
+    #cartModal {
+        width: 230px;
+        left: 83%;
+    }
+
+    #divItemInfo {
+        margin-left: 35%;
+    }
+
+    .bodyframe {
+        margin-top: 50px;
+    }
+
+    .searchbar {
+        margin-left: 25%;
+        width: 25%;
+    }
+
+    .searchbar2 {
+        height: inherit;
+        margin-left: -30px;
+        top: 7%;
+    }
+    .xslTable table{
+        width:100%;
+        overflow-x:auto;
+       
+    }
+    .xsl th{
+       padding: -15px;
+    }
+    .xsl td{
+       padding: -15px;
+    }
+    .table-centered{
+       margin-left:300px;
+    }
+}
+
+
+
+.validationRed {
+    border-style: solid;
+    border-color: red;
+}
+
+.validationGreen {
+    border-style: solid;
+    border-color: green;
+}
+
+.xslTable th {
+    border: 1px solid black;
+    text-align: left;
+    padding: 15px;
+     overflow-x:auto;
+
+}
+
+.xslTable td {
+    border: 1px solid black;
+    padding: 15px;
+     overflow-x:auto;
+}
+.xslTable table{
+    width:100%;
+     overflow-x:auto;
+}

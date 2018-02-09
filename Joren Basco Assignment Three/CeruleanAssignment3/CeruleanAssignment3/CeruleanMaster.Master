@@ -1,0 +1,229 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="CeruleanMaster.master.cs" Inherits="CeruleanAssignment3.CeruleanMaster" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Tempo Storm</title>
+    <link rel="icon" href="Merch/tempoIcon.png" />
+
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <%-- SCRIPTS AND STYLES --%>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="Content/myStyles.css" rel="stylesheet" />
+    <script src="Scripts/jquery-3.1.1.js"></script>
+    <script src="Scripts/bootstrap.js"></script>
+    <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+</head>
+<body>
+    <form id="form1" runat="server">
+
+        <div id="divMenubtn">
+            <a href="#menu-toggle" class="btn glyphicon glyphicon-menu-hamburger"></a>
+            <a href="Index.aspx">
+                <img src="Merch/tempologo1.png" class="logo" /></a>
+            <input type="text" placeholder="Search.." class="searchbar" runat="server" id="txtSearch" />
+            <a class="glyphicon glyphicon-search searchbar2" id="btnSearch" runat="server" onserverclick="btnSearch_ServerClick"></a>
+            <a href="#shop-cart" id="shop" class="btn glyphicon glyphicon-shopping-cart" runat="server" visible="false"></a>
+        </div>
+
+
+        <div id="wrapper" class="toggled">
+            <!-- Sidebar -->
+            <div id="sidebar-wrapper">
+                <ul class="sidebar-nav">
+                    <li class="sidebar-brand">
+                        <a href="Index.aspx">Home</a>
+                    </li>
+                    <li id="liLogin" runat="server">
+                        <a href="LogIn.aspx">Log In</a>
+                    </li>
+                    <li id="liSignup" runat="server">
+                        <a href="SignUp.aspx">Sign Up</a>
+                    </li>
+                    <li id="liProfile" runat="server" visible="false">
+                        <a href="UserProfile.aspx">Profile</a>
+                    </li>
+                    <li id="liOrderReview" runat="server" visible="false">
+                        <a href="OrderReview.aspx">Your Orders</a>
+                    </li>
+                    <li id="liLogOut" runat="server" visible="false">
+                        <a id="btnLogOut" runat="server" onserverclick="btnLogOut_ServerClick">Log Out</a>
+                    </li>
+                    <li id="liAdminOrders" runat="server" visible="false">
+                        <a href="AdminOrders.aspx">ADMIN ORDER</a>
+                    </li>
+                    <li id="liAdminUser" runat="server" visible="false">
+                        <a href="AdminUser.aspx">Admin Users</a>
+                    </li>
+                    <li id="liAdminItems" runat="server" visible="false">
+                        <a href="Admin Items.aspx">Admin Items</a>
+                    </li>
+
+                </ul>
+            </div>
+            <div>
+                <!-- Top Menu burger btn and cart -->
+                <!-- MAIN PAGE Body -->
+                <div id="mainPage">
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                    </asp:ContentPlaceHolder>
+                </div>
+                <!-- MAIN PAGE Body END -->
+            </div>
+        </div>
+
+        <%-- MODAL START ------------------------------ --%>
+        <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+        <%-- Updates the modal cart without postback // idk
+                                                                                                    why it needs scriptmanager--%>
+        <div id="cartModal" class="modal fade">
+            <div class="modal-content" id="modal1">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                    <h1>Your Cart</h1>
+                </div>
+                <div class="modal-body" id="modalBody" runat="server">
+                    <asp:GridView ID="GridView1" runat="server"></asp:GridView>
+                    <asp:UpdatePanel runat="server">
+                        <%--Update panel to update the cart // ScriptManager is needed, i still don't know why--%>
+                        <ContentTemplate>
+                            <asp:Repeater ID="cartRepeater" runat="server" OnItemCommand="cartRepeater_ItemCommand">
+                                <ItemTemplate>
+                                    <div id="divCartItems" class="cartItems">
+                                            <asp:HiddenField ID="hdnItemID" runat="server" Value='<%#Eval("itemID") %>' />
+                                        <asp:Image runat="server" ID="imgCartImg" ImageUrl='<%#"\\Merch\\" +Eval("itemImg") %>' Height="100" Width="100" />
+                                        <br />
+                                        <asp:Label runat="server" ID="lblCartItem" Text='<%#"<b>"+Eval("itemName")+"</b>" %>'></asp:Label>
+                                        <br />
+                                        <b>Quantity: </b>
+                                        <br />
+                                        <asp:Button ID="cartMinusQty" runat="server" CommandName="cmd_minus" CommandArgument='<%#Eval("cartID") %>' Text=" - " CssClass="btn btn-danger btn-s glyphicon glyphicon-pause" />
+                                        <asp:Label runat="server" ID="lblCartQty" Text='<%#Eval("quantity") %>'></asp:Label>
+                                        <asp:Button ID="cartAddQty" runat="server" CommandName="cmd_add" CommandArgument='<%#Eval("cartID") %>' Text=" + " CssClass="btn btn-info btn-sm glyphicon glyphicon-plus-sign" />
+                                        <br />
+                                        <asp:Label runat="server" ID="lblCartPrice" Text='<%#"<b>$"+(Convert.ToDecimal(Eval("itemPrice"))*Convert.ToDecimal(Eval("quantity")))+"</b>" %>'></asp:Label>
+                                    </div>
+<%--                                    <asp:Label ID="Label1" runat="server" Text='<%#Eval("userID") %>'></asp:Label>--%>
+                                </ItemTemplate>
+                            </asp:Repeater>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+                </div>
+                <div class="modal-footer">
+
+                    <asp:UpdatePanel ID="udpPnlTotal" runat="server">
+                        <ContentTemplate>
+                            <%--<a class="btn btn-success glyphicon-plus" style="float: left" id="btnQpon"></a>--%>
+<%--                            <button class="btn btn-success glyphicon-plus" style="float: left" id="btnQpon" runat="server" onserverclick="btnQpon_ServerClick"></button>--%>
+                         
+<%--                               <div id="divQpon" class="qpon" runat="server">
+                                <input id="txtQpon" type="text" placeholder="Enter Coupon Code.." runat="server" />
+                                <button id="btnEnterQpon" class="btn btn-default" runat="server" onserverclick="btnEnterQpon_ServerClick">Enter</button>
+                            </div>--%>
+                            <b>$
+                                <asp:Label ID="lblTotal" runat="server"></asp:Label></b>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+                    <br />
+                    <asp:Button ID="submitOrder" runat="server" Text="Order!" OnClick="submitOrder_Click" Width="100%" />
+                    <div id="paypal-button">
+                    </div>
+                </div>
+        </div>
+        </div>
+        <%-- MODAL END ------------------------------------ --%>
+    </form>
+
+    <script>
+        var totalPrice = $("#lblTotal").text();
+        var userID = '<%=Session["userID"]%>';
+        
+
+        $(".glyphicon-menu-hamburger").click(function (e) { // careful, if you put class=".glyphicon-menu-hamburger" anywhere else, this will activate //
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+            //if($("#wrapper").hasClass("toggled"))
+        });
+        $("#shop").click(function () {
+            $("#cartModal").modal();
+        });
+
+        $(document).ready(function () {
+            var cartItems = $(".cartItems");
+            var shop = $("#shop");
+            shop.text("(" + cartItems.length + ")");
+        })
+
+        function enter() {
+            var orderID = "";
+            var userID = '<%=Session["userID"] %>';
+            var JSONobj1 = { "userID": userID, "total": totalPrice };
+            $.post("EnterOrder.ashx", JSONobj1, function (data, status) {
+            //    alert(data);
+                orderID = data;
+
+
+                var item = $(".cartItems");
+                for (var i = 0; i < item.length; i++) {
+                    var JSONobj = {
+                        "orderID": orderID,
+                        "itemID": item[i].children[0].value,
+                        "qty": item[i].children[8].textContent
+                    }
+                    $.post("EnterOrderItems.ashx", JSONobj, function (data, status) { })
+                }
+            });
+        }
+        $(document).ready(function () {
+            if (userID == "") {
+                $(".modal-footer").html("Please Log In");
+            }
+
+
+        })
+        paypal.Button.render(
+            {
+                env: 'sandbox', // Specify 'sandbox' for the test environment
+                client: {
+                    sandbox: 'AbIhOWOb5fZLCSSVcCEUUgUUexvXG3o4QOoX0g-3jAD4KjT9OeqkWFbSC1l_G5hdkawRaAI9cMNONa7l',
+                    prodcution: 'AbIhOWOb5fZLCSSVcCEUUgUUexvXG3o4QOoX0g-3jAD4KjT9OeqkWFbSC1l_G5hdkawRaAI9cMNONa7l'
+                },
+
+                payment: function () {
+
+                    var env = this.props.env;
+                    var client = this.props.client;
+
+                    return paypal.rest.payment.create(env, client, {
+                        transactions: [
+                            {
+                                amount: { total: totalPrice, currency: 'USD' }
+                            }
+                        ]
+                    });
+                },
+
+                commit: true, // Optional: show a 'Pay Now' button in the checkout flow
+
+                onAuthorize: function (data, actions) {
+
+                    // Optional: display a confirmation page here
+
+                    return actions.payment.execute().then(function () {
+                        // Show a success page to the buyer
+                        enter();
+                        window.location.href = "OrderReview.aspx";
+
+
+                    });
+                }
+
+            }, '#paypal-button');
+    </script>
+</body>
+</html>
